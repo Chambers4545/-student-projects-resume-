@@ -1,0 +1,232 @@
+/* ==========================================================================
+   Résumé page
+   Practises: semantic HTML, CSS Grid for page layout, Flexbox, print styles
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. Variables and base styles
+   -------------------------------------------------------------------------- */
+:root {
+  --color-bg: #eef1f5;
+  --color-paper: #ffffff;
+  --color-text: #1f2933;
+  --color-muted: #6b7684;
+  --color-accent: #1f5f8b;
+  --color-border: #dde3ea;
+
+  --space-sm: 0.4rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  padding: var(--space-lg) var(--space-md);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. The "sheet of paper"
+   A white card centred on a grey background. This is a very common pattern
+   for documents, invoices and dashboards.
+   -------------------------------------------------------------------------- */
+.resume {
+  background-color: var(--color-paper);
+  max-width: 850px;
+  margin: 0 auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Header
+   -------------------------------------------------------------------------- */
+.resume__header {
+  background-color: var(--color-accent);
+  color: #fff;
+  padding: var(--space-lg);
+}
+
+.resume__name {
+  font-size: 2.25rem;
+  letter-spacing: 0.02em;
+}
+
+.resume__role {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: var(--space-md);
+}
+
+/* Flexbox lays the contact items out in a row.
+   flex-wrap lets them drop onto a second line if there is not enough space. */
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  list-style: none;      /* removes the bullet points */
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Two-column layout with CSS Grid
+
+   grid-template-columns: 2fr 1fr
+     -> the main column is twice as wide as the sidebar.
+   Change it to "1fr 1fr" for equal columns, or "1fr 2fr" to flip them.
+   -------------------------------------------------------------------------- */
+.resume__body {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+}
+
+.resume__sidebar {
+  border-left: 1px solid var(--color-border);
+  padding-left: var(--space-lg);
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Sections
+   -------------------------------------------------------------------------- */
+.section {
+  margin-bottom: var(--space-lg);
+}
+
+.section__title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+
+/* --------------------------------------------------------------------------
+   6. A job or education entry
+   -------------------------------------------------------------------------- */
+.entry {
+  margin-bottom: var(--space-md);
+}
+
+/* Job title on the left, dates pushed to the right. */
+.entry__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-md);
+}
+
+.entry__title {
+  font-size: 1rem;
+}
+
+.entry__date {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.entry__org {
+  color: var(--color-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.entry__points {
+  margin: var(--space-sm) 0 0 1.1rem;   /* the left margin indents the bullets */
+  font-size: 0.92rem;
+}
+
+.entry__points li {
+  margin-bottom: var(--space-sm);
+}
+
+
+/* --------------------------------------------------------------------------
+   7. Sidebar lists
+
+   The skills use Flexbox so the tags wrap naturally into rows.
+   -------------------------------------------------------------------------- */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  list-style: none;
+}
+
+.tag {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;    /* a very large radius makes a pill shape */
+  padding: 0.2rem 0.7rem;
+  font-size: 0.82rem;
+}
+
+.plain-list {
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.plain-list li {
+  margin-bottom: var(--space-sm);
+}
+
+
+/* --------------------------------------------------------------------------
+   8. Responsive: stack the columns on a narrow screen
+   -------------------------------------------------------------------------- */
+@media (max-width: 700px) {
+  .resume__body {
+    grid-template-columns: 1fr;
+  }
+
+  .resume__sidebar {
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    padding-left: 0;
+    padding-top: var(--space-lg);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   9. Print styles
+
+   These rules apply only when the page is printed (try Ctrl+P). Print
+   stylesheets are a real, useful skill and most students never meet them.
+   Here we drop the background and shadow so we do not waste ink.
+   -------------------------------------------------------------------------- */
+@media print {
+  body {
+    background: none;
+    padding: 0;
+  }
+
+  .resume {
+    box-shadow: none;
+    max-width: 100%;
+  }
+
+  .resume__header {
+    /* Tells the browser to actually print the background colour. */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
